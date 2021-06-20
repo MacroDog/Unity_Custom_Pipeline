@@ -1,0 +1,61 @@
+# for visual studio
+.vs/
+obj/
+GOT_PC.sln
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp.csproj
+tempbuildLog
+
+# for jetbrain rider
+.idea/
+[Aa]ssets/Plugins/Editor/JetBrains/
+
+# for unity temp directory
+Library/
+Temp/
+Logs/
+# for build ab
+
+# for build platform
+
+
+# for other tools
+
+
+Assets/_TerrainAutoUpgrade.meta
+tempbuildLog
+Assets/External/compile
+Assets/External/compile.meta
+Assets/Script/Game/moduls/Chapter/Charge.meta
+Folder.DotSettings.user
+Assets/Plugins/Editor/JetBrains.meta
+Assets/Plugins/Editor.meta
+Assets/External/Share
+BuildTool/dependPaths.txt
+BuildTool/discardPaths.txt
+BuildTool/ShaderLink.html
+Assets/Script/Game/Core/DynamicActivity/data.meta
+Assets/Script/Game/Core/DynamicActivity.meta
+Assets/Script/Game/Core/DynamicActivity/data/basic.meta
+Assets/ShaderlabVSCode
+Assets/ShaderlabVSCode.meta
+*.csproj
+Assembly-CSharp-firstpass.csproj
+Assembly-CSharp-firstpass.csproj
+ProjectSettings/ProjectSettings.asset
+Assembly-CSharp-firstpass.csproj
+*.csproj
+Assembly-CSharp-firstpass.csproj
+Assembly-CSharp-firstpass.csproj
+*.csproj
+Assembly-CSharp-firstpass.csproj
+ProjectSettings/UPRSettings.asset
+.vscode/
+.vscode/
+Assembly-CSharp-firstpass.csproj
+TestData
+UWA_Builds
+Assets/UWA
+Assembly-CSharp-firstpass.csproj
+Sirenix.OdinInspector.CompatibilityLayer.Editor.csproj
+*.csproj
