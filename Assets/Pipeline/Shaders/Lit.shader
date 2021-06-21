@@ -1,9 +1,9 @@
-﻿Shader "SRP/Unlit"
+﻿Shader "SRP/Lit"
 {
     Properties
     {
         _Color ("Color",Color)=(1,1,1,1)
-        // _MainTex ("Texture", 2D) = "white" {}
+        _MainTex ("MainTexture",2D)="white"{}
     }
     SubShader
     {
@@ -16,7 +16,7 @@
 			#pragma instancing_options assumeuniformscaling
             #pragma vertex UnlitPassVertex
 			#pragma fragment UnlitPassFragment
-			#include "../ShaderLibrary/Unlit.hlsl"
+			#include "../ShaderLibrary/Lit.hlsl"
             ENDHLSL
         }
     }
