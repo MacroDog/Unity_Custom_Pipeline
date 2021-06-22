@@ -47,15 +47,17 @@ VertexOutput UnlitPassVertex (VertexInput i) {
     UNITY_TRANSFER_INSTANCE_ID(i, o);
 	float4 worldPos = mul(UNITY_MATRIX_M, float4(i.pos.xyz, 1.0));
 	o.pos = mul(unity_MatrixVP, worldPos);
-	o.worldpos = worldPos;
+	o.worldpos = worldPos.xyz;
 	o.normal = mul((float3x3)UNITY_MATRIX_M, i.normal);
 	o.uv = TRANSFORM_TEX(i.texcoord,_BaseMap);
 	return o;
 }
 
-float3  DiffuseLight (int index,float3 normal,float3 worldpos){
+float3  DiffuseLight (int index,float3 normal,float3 worldpos)
+{
 	float3 lightColor = _VisibleLightColors[index].rgb;
-	float3 lightDir = _VisibleLightDirections[index].xyz  -(worldpos*_VisibleLightDirections[index].z);
+	float3 lightDir = _VisibleLightDirections[index].xyz  -(worldpos*_VisibleLightDirections[index].w);
+	lightDir = normalize(lightDir);
 	float diffue =  saturate(dot(normal, lightDir));
 	return diffue*lightColor;
 }
