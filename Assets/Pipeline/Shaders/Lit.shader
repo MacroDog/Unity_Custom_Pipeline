@@ -3,7 +3,7 @@
     Properties
     {
         _Color ("Color",Color)=(1,1,1,1)
-        _MainTex ("MainTexture",2D)="white"{}
+        _BaseMap ("BaseMap",2D)="white"{}
     }
     SubShader
     {

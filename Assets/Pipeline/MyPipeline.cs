@@ -60,6 +60,7 @@ public class MyPipeline : RenderPipeline
         var clearcolor = ((int)clearFlags & (int)CameraClearFlags.Color) == 1;
         camera_buffer.ClearRenderTarget(cleardathp, clearcolor, camera.backgroundColor);
         camera_buffer.BeginSample("Render Camera");
+        ConfigureLights();
         camera_buffer.SetGlobalVectorArray(visibleLightColorId,visibleLightColors);
         camera_buffer.SetGlobalVectorArray(visibleLightDirectionsID,visibleLightDirections);
         context.ExecuteCommandBuffer(camera_buffer);
@@ -96,6 +97,7 @@ public class MyPipeline : RenderPipeline
             v.y = -v.y;
             v.z = -v.z;
             visibleLightDirections[i] = v;
+            v.w = cull.visibleLights[i].light.type == LightType.Point ? 1 : 0;
         }
     }
 
