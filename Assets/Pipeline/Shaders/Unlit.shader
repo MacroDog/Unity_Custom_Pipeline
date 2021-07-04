@@ -16,7 +16,9 @@
 			#pragma instancing_options assumeuniformscaling
             #pragma vertex UnlitPassVertex
 			#pragma fragment UnlitPassFragment
+			#include "../ShaderLibrary/Common.hlsl"
 			#include "../ShaderLibrary/Unlit.hlsl"
+
             ENDHLSL
         }
     }

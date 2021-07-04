@@ -9,14 +9,31 @@
     {
         Pass
         {
-            // Tags{"LightMode" = "SRPDefaultUnlit"}
             HLSLPROGRAM
             #pragma target 3.5
             #pragma multi_compile_instancing
 			#pragma instancing_options assumeuniformscaling
-            #pragma vertex UnlitPassVertex
-			#pragma fragment UnlitPassFragment
+            #pragma vertex LitPassVertex
+			#pragma fragment LitPassFragment
+            #include "../ShaderLibrary/Surface.hlsl"
+            #include "../ShaderLibrary/LitInput.hlsl"
+            #include "../ShaderLibrary/Lighting.hlsl"
 			#include "../ShaderLibrary/Lit.hlsl"
+			
+
+            ENDHLSL
+        }
+
+        Pass
+        {
+            Tags {"LightMode" = "ShadowCaster"}
+            HLSLPROGRAM
+            #pragma target 3.5
+            #pragma multi_compile_instancing
+			#pragma instancing_options assumeuniformscaling
+            #pragma vertex ShadowCasterPassVertex
+			#pragma fragment ShadowCasterPassFragment
+			#include "../ShaderLibrary/ShadowCaster.hlsl"
             ENDHLSL
         }
     }

@@ -1,7 +1,7 @@
 # for visual studio
 .vs/
 obj/
-GOT_PC.sln
+renderpipeline.sln
 Assembly-CSharp-Editor.csproj
 Assembly-CSharp.csproj
 tempbuildLog

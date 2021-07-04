@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.Experimental.Rendering;
-
-[CreateAssetMenu(menuName = "Rendering/My Pipeline")]
-public class MyPipelineAsset : RenderPipelineAsset
+namespace CustomPipeline
 {
-    [SerializeField]
-	bool dynamicBatching;
-       [SerializeField]
-	bool instancing;
-    protected override IRenderPipeline InternalCreatePipeline()
+    [CreateAssetMenu(menuName = "Rendering/My Pipeline")]
+    public class MyPipelineAsset : RenderPipelineAsset
     {
-        return new MyPipeline(dynamicBatching, instancing);
+        [SerializeField]
+        bool dynamicBatching;
+        [SerializeField]
+        bool instancing;
+
+        [SerializeField]
+        ShadowSetting drawSetting = default;
+        protected override IRenderPipeline InternalCreatePipeline()
+        {
+            return new MyPipeline(dynamicBatching, instancing,drawSetting);
+        }
     }
 }
