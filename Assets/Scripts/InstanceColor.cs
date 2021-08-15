@@ -5,7 +5,7 @@ using UnityEngine;
 public class InstanceColor : MonoBehaviour
 {
     static MaterialPropertyBlock propertyBlock;
-	static int colorID = Shader.PropertyToID("_Color");
+    static int colorID = Shader.PropertyToID("_Color");
     [SerializeField]
     Color color;
     // Start is called before the first frame update
@@ -30,6 +30,6 @@ public class InstanceColor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

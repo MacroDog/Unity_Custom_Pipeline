@@ -1,30 +1,27 @@
 ﻿#ifndef MYRP_SHADOW_CASTER_INCLUDED
 #define MYRP_SHADOW_CASTER_INCLUDED
-#include "../ShaderLibrary/Common.hlsl"
-
-CBUFFER_START(UnityPerFrame)
-	float4x4 unity_MatrixVP;
-CBUFFER_END
-CBUFFER_START(UnityPerDraw)
-	float4x4 unity_ObjectToWorld;
-CBUFFER_END
-#define MAX_VISIBLE_LIGHTS 4
-TEXTURE2D(_BaseMap);            SAMPLER(sampler_BaseMap);
+// #define MAX_VISIBLE_LIGHTS 4
+TEXTURE2D(_BaseMap);
+SAMPLER(sampler_BaseMap);
 CBUFFER_START(UnityPerMaterial)
 float4 _BaseMap_ST;
 CBUFFER_END
-#define UNITY_MATRIX_M unity_ObjectToWorld
 
-UNITY_INSTANCING_BUFFER_START(Props)
-	UNITY_DEFINE_INSTANCED_PROP(float4 , _Color)
-UNITY_INSTANCING_BUFFER_END(Props)
+UNITY_INSTANCING_BUFFER_START(UnityPerMaterial)
+UNITY_DEFINE_INSTANCED_PROP(float4 , _Color)
+UNITY_DEFINE_INSTANCED_PROP(float, _Cutoff)
+UNITY_INSTANCING_BUFFER_END(UnityPerMaterial)
 
 struct VertexInput {
 	float4 pos 			: POSITION;
+	float2 uv       : TEXCOORD0;
+    UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
 struct VertexOutput {
 	float4 pos 	: SV_POSITION;
+	float2 uv	: TEXCOORD0;
+	UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
 struct Light
@@ -35,24 +32,25 @@ struct Light
     half    distanceAttenuation;
     half    shadowAttenuation;
 };
-// TEXTURE2D(_MainTex);            SAMPLER(sampler_MainTex);
 
-
-VertexOutput ShadowCasterPassVertex (VertexInput i) {
+VertexOutput ShadowCasterPassVertex (VertexInput i) 
+{
 	VertexOutput o;
 	UNITY_SETUP_INSTANCE_ID(i);
+	UNITY_TRANSFER_INSTANCE_ID(i,o);
 	float4 worldPos = mul(UNITY_MATRIX_M, float4(i.pos.xyz, 1.0));
-	o.pos = mul(unity_MatrixVP, worldPos);
-	#if UNITY_REVERSED_Z
-		o.pos.z = min(o.pos.z,o.pos.w * UNITY_NEAR_CLIP_VALUE);
-	#else
-		o.pos.z = max(o.pos.z,o.pos.w * UNITY_NEAR_CLIP_VALUE);
-	#endif
+	o.pos = mul(UNITY_MATRIX_VP, worldPos);
+	float4 st= UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial,_BaseMap_ST);
+	o.uv = i.uv*st.xy+st.zw;
 	return o;
 }
 
-
-float4 ShadowCasterPassFragment (VertexOutput i) : SV_TARGET {
-	return  0;
+//片元函数
+void ShadowCasterPassFragment(VertexOutput input) {
+	UNITY_SETUP_INSTANCE_ID(input);
+    float4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
+#if defined(_CLIPPING) 
+	clip(baseMap.a-UNITY_DEFINE_INSTANCED_PROP(UnityPerMaterial,_Cutoff))
+#endif
 }
 #endif

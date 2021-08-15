@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Experimental.Rendering;
+using UnityEngine.Rendering;
 namespace CustomPipeline
 {
     [CreateAssetMenu(menuName = "Rendering/My Pipeline")]
@@ -12,7 +12,7 @@ namespace CustomPipeline
 
         [SerializeField]
         ShadowSetting drawSetting = default;
-        protected override IRenderPipeline InternalCreatePipeline()
+        protected override RenderPipeline  CreatePipeline()
         {
             return new MyPipeline(dynamicBatching, instancing,drawSetting);
         }

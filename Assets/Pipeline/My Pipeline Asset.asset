@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb197aaf017ab4942afe27bd50e40ecc, type: 3}
-  m_Name: MyPipeline
+  m_Script: {fileID: 11500000, guid: 7fda4d39c59340342bf1a9af2d51299f, type: 3}
+  m_Name: My Pipeline Asset
   m_EditorClassIdentifier: 
   dynamicBatching: 1
   instancing: 1
+  drawSetting:
+    MaxDistence: 10
+    DirectionSetting:
+      TextureSize: 1024
