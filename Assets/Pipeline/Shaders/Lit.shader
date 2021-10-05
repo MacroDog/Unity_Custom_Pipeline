@@ -5,8 +5,8 @@
         _Color ("Color",Color)=(1,1,1,1)
         _Cutoff ("_Cutoff",float)=0.1
         _BaseMap ("BaseMap",2D)="white"{}
-
     }
+
     SubShader
     {
         Pass
@@ -15,6 +15,7 @@
             Tags {"LightMode" = "SRPDefaultLit"}
             HLSLPROGRAM
             #pragma target 3.5
+            #pragma multi_compile _ _DIRECTIONAL_PCF3 _DIRECTIONAL_PCF5 _DIRECTIONAL_PCF7
             #pragma multi_compile_instancing
 			#pragma instancing_options assumeuniformscaling
             #pragma vertex LitPassVertex
@@ -46,4 +47,5 @@
             ENDHLSL
         }
     }
+        FallBack "Hidden/Universal Render Pipeline/FallbackError"
 }

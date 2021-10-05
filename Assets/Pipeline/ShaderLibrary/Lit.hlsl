@@ -1,12 +1,11 @@
 ﻿#ifndef MYRP_LIT_INCLUDED
 #define MYRP_LIT_INCLUDED
 #include "../ShaderLibrary/Common.hlsl"
-CBUFFER_START(UnityPerMaterial)
-float4 _BaseMap_ST;
-CBUFFER_END
 
 UNITY_INSTANCING_BUFFER_START(UnityPerMaterial)
+	UNITY_DEFINE_INSTANCED_PROP(float4, _BaseMap_ST)
 	UNITY_DEFINE_INSTANCED_PROP(float4 , _Color)
+	UNITY_DEFINE_INSTANCED_PROP(float4, _BaseColor)
 UNITY_INSTANCING_BUFFER_END(UnityPerMaterial)
 
 struct VertexInput {
@@ -30,11 +29,11 @@ VertexOutput LitPassVertex (VertexInput i)
 	VertexOutput o;
 	UNITY_SETUP_INSTANCE_ID(i);
     UNITY_TRANSFER_INSTANCE_ID(i, o);
-	float3 worldPos =TransformObjectToWorld(i.pos);
-	o.pos = TransformWorldToHClip(i.pos);
-	o.worldpos = worldPos.xyz;
+	o.worldpos =TransformObjectToWorld(i.pos);
+	o.pos = TransformWorldToHClip(o.worldpos);
 	o.normal =TransformObjectToWorldNormal(i.normal);
-	o.uv = TRANSFORM_TEX(i.texcoord,_BaseMap);
+	float4 st = UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _BaseMap_ST);
+	o.uv =  i.texcoord * st.xy + st.zw;
 	return o;
 }
 
@@ -47,12 +46,12 @@ float4 LitPassFragment (VertexOutput i) : SV_TARGET
 	float3 basecolor = UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial,_Color).rgb;
 	sur.color *= basecolor;
 	float3 diffuselight = 0;
-	for(int index=0;index<_VisibleLightCount ; index++)
+	for(int index = 0;index<_VisibleLightCount; index++)
 	{
 		Light light = GetDirectionalLight(index,sur);
 		diffuselight += GetLighting(light,sur);
 	}
-	sur.color  = diffuselight*sur.color;
-	return float4 (sur.color,1);
+	sur.color  = diffuselight * sur.color;
+	return float4(sur.color,sur.alpha);
 }
 #endif

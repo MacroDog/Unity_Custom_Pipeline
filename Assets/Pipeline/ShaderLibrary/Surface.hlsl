@@ -8,7 +8,10 @@ struct Surface
 	half3 normal;
 	half3 color;
 	half alpha;
+	float depth;
+	float3 viewDirectiopn;
 };
+
 TEXTURE2D(_BaseMap);            SAMPLER(sampler_BaseMap);
 
 void InitLitSurfaceData(float3 wspos,float2 uv, float3 normal,out Surface outSurfaceData)
@@ -18,6 +21,8 @@ void InitLitSurfaceData(float3 wspos,float2 uv, float3 normal,out Surface outSur
 	outSurfaceData.color = sim.rgb;
 	outSurfaceData.alpha = sim.a;
 	outSurfaceData.normal = normalize(normal);
+	outSurfaceData.depth =  -TransformWorldToView(wspos).z;
+	outSurfaceData.viewDirectiopn = 1;
 }
 
 #endif
