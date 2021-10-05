@@ -38,17 +38,25 @@ VertexOutput ShadowCasterPassVertex (VertexInput i)
 	VertexOutput o;
 	UNITY_SETUP_INSTANCE_ID(i);
 	UNITY_TRANSFER_INSTANCE_ID(i,o);
-	float4 worldPos = mul(UNITY_MATRIX_M, float4(i.pos.xyz, 1.0));
-	o.pos = mul(UNITY_MATRIX_VP, worldPos);
+	float3 worldPos =TransformObjectToWorld(i.pos.xyz);
+	o.pos = TransformWorldToHClip(worldPos);
+	#if UNITY_REVERSED_Z
+	o.pos.z = min(o.pos.z,o.pos.w*UNITY_NEAR_CLIP_VALUE);
+	#else
+	o.pos.z = max(o.pos.z,o.pos.w*UNITY_NEAR_CLIP_VALUE);
+	#endif
 	float4 st= UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial,_BaseMap_ST);
 	o.uv = i.uv*st.xy+st.zw;
 	return o;
 }
 
 //片元函数
-void ShadowCasterPassFragment(VertexOutput input) {
+void ShadowCasterPassFragment(VertexOutput input)
+{
 	UNITY_SETUP_INSTANCE_ID(input);
     float4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
+	float4 color = UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial,_Color);
+	float4 base = baseMap*color;
 #if defined(_CLIPPING) 
 	clip(baseMap.a-UNITY_DEFINE_INSTANCED_PROP(UnityPerMaterial,_Cutoff))
 #endif

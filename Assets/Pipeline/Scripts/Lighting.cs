@@ -16,6 +16,7 @@ namespace CustomPipeline
         static int LightDirectionsID = Shader.PropertyToID("_VisibleLightDirections");
         static int DirectionLightShadowID = Shader.PropertyToID("_DirectionalLightShadowData");
 
+
         static string buffname = "LightBuffer";
         CommandBuffer buffer = new CommandBuffer
         {
@@ -23,7 +24,7 @@ namespace CustomPipeline
         };
         CullingResults cullResults;
 
-        Shadows shadow  = new Shadows();
+        Shadows shadow = new Shadows();
         void SetUpDirectionalLight(int index, ref VisibleLight light)
         {
             if (light.light.type == LightType.Directional)
@@ -32,19 +33,13 @@ namespace CustomPipeline
                 visibleLightDirections[index] = -light.localToWorldMatrix.GetColumn(2);
                 dirLightShadowData[index] = shadow.ReserveDirectionalShadow(light.light, index);
             }
-            // else
-            // {
-            //     visibleLightDirections[index] =
-            //         light.localToWorld.GetColumn(3);
-            //     visibleLightDirections[index].z = 1;
-            // }
         }
 
-        public void SetUp( ScriptableRenderContext context,  CullingResults cullResults,  ShadowSetting shadowSetting)
+        public void SetUp(ScriptableRenderContext context, CullingResults cullResults, ShadowSetting shadowSetting)
         {
             this.cullResults = cullResults;
             buffer.BeginSample(buffname);
-            shadow.SetUp(context,cullResults,shadowSetting);
+            shadow.SetUp(context, cullResults, shadowSetting);
             SetUpLight();
             shadow.Render();
             buffer.EndSample(buffname);

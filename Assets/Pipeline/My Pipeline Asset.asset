@@ -15,6 +15,12 @@ MonoBehaviour:
   dynamicBatching: 1
   instancing: 1
   drawSetting:
-    MaxDistence: 10
+    MaxDistence: 20
+    DistanceFade: 0.1
     DirectionSetting:
-      TextureSize: 1024
+      TextureSize: 8192
+      CascadeCount: 4
+      CascadeRatio1: 0.3
+      CascadeRatio2: 0.4
+      CascadeRatio3: 0.5
+      CascadeFade: 0.01

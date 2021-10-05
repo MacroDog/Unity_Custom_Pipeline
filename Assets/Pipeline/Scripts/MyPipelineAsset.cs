@@ -9,12 +9,12 @@ namespace CustomPipeline
         bool dynamicBatching;
         [SerializeField]
         bool instancing;
-
         [SerializeField]
         ShadowSetting drawSetting = default;
-        protected override RenderPipeline  CreatePipeline()
+
+        protected override RenderPipeline CreatePipeline()
         {
-            return new MyPipeline(dynamicBatching, instancing,drawSetting);
+            return new MyPipeline(dynamicBatching, instancing, drawSetting);
         }
     }
 }

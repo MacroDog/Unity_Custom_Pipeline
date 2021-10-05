@@ -65,7 +65,7 @@ namespace CustomPipeline
                 enableDynamicBatching = enableDynamicBatching
             };
             drawSetting.SetShaderPassName(1, LitPass);
-            // drawSetting.SetShaderPassName(2, ShadowPass);
+            drawSetting.SetShaderPassName(2, ShadowPass);
 
             var filterSetting = new FilteringSettings(RenderQueueRange.opaque);
             //绘制不透明

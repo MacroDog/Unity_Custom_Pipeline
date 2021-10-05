@@ -22,6 +22,6 @@ VertexOutput UnlitPassVertex (VertexInput input) {
 }
 float4 UnlitPassFragment (VertexOutput input) : SV_TARGET {
 	UNITY_SETUP_INSTANCE_ID(input);
-	return UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+	return UNITY_ACCESS_INSTANCED_PROP(UnityPerMaterial, _Color);
 }
 #endif
